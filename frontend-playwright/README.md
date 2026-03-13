@@ -70,3 +70,9 @@ To run tests in a CI pipeline (GitHub Actions, GitLab CI, Jenkins, etc.), use th
 
 - Install dependencies `npm install`
 - Run tests `npx playwright test`
+
+# ESLint usage
+
+This project uses ESLint to maintain code quality and consistency.
+
+To run ESLint and analyze the entire project execute:`npx eslint .`
