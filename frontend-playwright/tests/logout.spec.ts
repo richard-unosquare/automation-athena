@@ -5,19 +5,32 @@ import { LoginAssertions } from '../assertions/LoginAssertions';
 import { DashboardAssertions } from '../assertions/DashboardAssertions';
 import { DashboardPage } from '../pages/DashboardPage';
 import { DashboardActions } from '../actions/DashboardActions';
-
 import { ENV } from '../config/env';
 
-test('User can logout successfully', async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  const dashboardPage = new DashboardPage(page);
-  const loginActions = new LoginActions(loginPage);
-  const dashboardActions = new DashboardActions(dashboardPage);
-  const loginAssertions = new LoginAssertions(loginPage);
-  const dashboardAssertions = new DashboardAssertions(dashboardPage);
-  await loginActions.navigate(ENV.INSTANCE_URL);
-  await loginActions.login(ENV.USERNAME, ENV.PASSWORD);
-  await dashboardAssertions.verifyDashboardLoaded();
-  await dashboardActions.logout();
-  await loginAssertions.verifyLoginLoaded();
+let loginPage: LoginPage;
+let dashboardPage: DashboardPage;
+let loginActions: LoginActions;
+let dashboardActions: DashboardActions;
+let loginAssertions: LoginAssertions;
+let dashboardAssertions: DashboardAssertions;
+
+test.describe('Logout Tests', () => {
+
+  test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    dashboardPage = new DashboardPage(page);
+    loginActions = new LoginActions(loginPage);
+    dashboardActions = new DashboardActions(dashboardPage);
+    loginAssertions = new LoginAssertions(loginPage);
+    dashboardAssertions = new DashboardAssertions(dashboardPage);
+  });
+
+  test('User can logout successfully', async () => {
+    await loginActions.navigate(ENV.INSTANCE_URL);
+    await loginActions.login(ENV.USERNAME, ENV.PASSWORD);
+    await dashboardAssertions.verifyDashboardLoaded();
+    await dashboardActions.logout();
+    await loginAssertions.verifyLoginLoaded();
+  });
+
 });
